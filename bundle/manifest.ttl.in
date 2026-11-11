@@ -1,0 +1,20 @@
+@prefix lv2:  <http://lv2plug.in/ns/lv2core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ui:   <http://lv2plug.in/ns/extensions/ui#> .
+
+# Template: the build fills in the library extension (.dll, .so or .dylib) and the
+# GUI class (ui:WindowsUI, ui:X11UI or ui:CocoaUI) for the platform.
+
+<urn:davidian:seventy-three>
+	a lv2:Plugin ;
+	lv2:binary <seventy_three@LIB_EXT@> ;
+	rdfs:seeAlso <seventy_three.ttl> .
+
+<urn:davidian:seventy-three>
+	ui:ui <urn:davidian:seventy-three#ui> .
+
+<urn:davidian:seventy-three#ui>
+	a @UI_CLASS@ ;
+	ui:binary <seventy_three_ui@LIB_EXT@> ;
+	lv2:optionalFeature ui:parent , ui:resize , ui:idleInterface ;
+	lv2:extensionData ui:idleInterface .

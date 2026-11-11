@@ -1,0 +1,155 @@
+@prefix doap:  <http://usefulinc.com/ns/doap#> .
+@prefix lv2:   <http://lv2plug.in/ns/lv2core#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix units: <http://lv2plug.in/ns/extensions/units#> .
+
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Copyright (C) 2026 Davidian
+# Port indices must match src/ports.h; ranges and defaults must match src/params.h.
+
+<urn:davidian:seventy-three>
+	a lv2:Plugin , lv2:EQPlugin ;
+	doap:name "Davidian Seventy-Three" ;
+	doap:license <https://spdx.org/licenses/GPL-3.0-or-later> ;
+	rdfs:comment "Circuit model of a class-A microphone preamplifier and equaliser channel: mic and line input transformers, stepped sensitivity switch, 18 dB/octave high-pass filter, low shelf, mid bell and 12 kHz high shelf, class-A output stage and output transformer. GPL-3.0-or-later. Made with generative AI (Claude Code); see AI_USAGE.md in the bundle." ;
+	lv2:minorVersion 0 ;
+	lv2:microVersion 0 ;
+	lv2:optionalFeature lv2:hardRTCapable ;
+	lv2:port [
+		a lv2:AudioPort , lv2:InputPort ;
+		lv2:index 0 ;
+		lv2:symbol "in" ;
+		lv2:name "In"
+	] , [
+		a lv2:AudioPort , lv2:OutputPort ;
+		lv2:index 1 ;
+		lv2:symbol "out" ;
+		lv2:name "Out"
+	] , [
+		a lv2:ControlPort , lv2:InputPort ;
+		lv2:index 2 ;
+		lv2:symbol "gain" ;
+		lv2:name "Sensitivity" ;
+		lv2:default 2 ;
+		lv2:minimum 0 ;
+		lv2:maximum 19 ;
+		lv2:portProperty lv2:integer , lv2:enumeration ;
+		lv2:scalePoint [ rdfs:label "Line +10" ; rdf:value 0 ] , [ rdfs:label "Line +5" ; rdf:value 1 ] , [ rdfs:label "Line 0" ; rdf:value 2 ] , [ rdfs:label "Line -5" ; rdf:value 3 ] , [ rdfs:label "Line -10" ; rdf:value 4 ] , [ rdfs:label "Line -15" ; rdf:value 5 ] , [ rdfs:label "Line -20" ; rdf:value 6 ] , [ rdfs:label "Mic -20" ; rdf:value 7 ] , [ rdfs:label "Mic -25" ; rdf:value 8 ] , [ rdfs:label "Mic -30" ; rdf:value 9 ] , [ rdfs:label "Mic -35" ; rdf:value 10 ] , [ rdfs:label "Mic -40" ; rdf:value 11 ] , [ rdfs:label "Mic -45" ; rdf:value 12 ] , [ rdfs:label "Mic -50" ; rdf:value 13 ] , [ rdfs:label "Mic -55" ; rdf:value 14 ] , [ rdfs:label "Mic -60" ; rdf:value 15 ] , [ rdfs:label "Mic -65" ; rdf:value 16 ] , [ rdfs:label "Mic -70" ; rdf:value 17 ] , [ rdfs:label "Mic -75" ; rdf:value 18 ] , [ rdfs:label "Mic -80" ; rdf:value 19 ] 
+	] , [
+		a lv2:ControlPort , lv2:InputPort ;
+		lv2:index 3 ;
+		lv2:symbol "impedance" ;
+		lv2:name "Mic Impedance" ;
+		lv2:default 0 ;
+		lv2:minimum 0 ;
+		lv2:maximum 1 ;
+		lv2:portProperty lv2:integer , lv2:enumeration ;
+		lv2:scalePoint [ rdfs:label "Lo" ; rdf:value 0 ] , [ rdfs:label "Hi" ; rdf:value 1 ] 
+	] , [
+		a lv2:ControlPort , lv2:InputPort ;
+		lv2:index 4 ;
+		lv2:symbol "hpf" ;
+		lv2:name "High-Pass Filter" ;
+		lv2:default 0 ;
+		lv2:minimum 0 ;
+		lv2:maximum 4 ;
+		lv2:portProperty lv2:integer , lv2:enumeration ;
+		lv2:scalePoint [ rdfs:label "Off" ; rdf:value 0 ] , [ rdfs:label "50 Hz" ; rdf:value 1 ] , [ rdfs:label "80 Hz" ; rdf:value 2 ] , [ rdfs:label "160 Hz" ; rdf:value 3 ] , [ rdfs:label "300 Hz" ; rdf:value 4 ] 
+	] , [
+		a lv2:ControlPort , lv2:InputPort ;
+		lv2:index 5 ;
+		lv2:symbol "low_freq" ;
+		lv2:name "Low Frequency" ;
+		lv2:default 0 ;
+		lv2:minimum 0 ;
+		lv2:maximum 4 ;
+		lv2:portProperty lv2:integer , lv2:enumeration ;
+		lv2:scalePoint [ rdfs:label "Off" ; rdf:value 0 ] , [ rdfs:label "35 Hz" ; rdf:value 1 ] , [ rdfs:label "60 Hz" ; rdf:value 2 ] , [ rdfs:label "110 Hz" ; rdf:value 3 ] , [ rdfs:label "220 Hz" ; rdf:value 4 ] 
+	] , [
+		a lv2:ControlPort , lv2:InputPort ;
+		lv2:index 6 ;
+		lv2:symbol "low_gain" ;
+		lv2:name "Low Gain" ;
+		lv2:default 0.0 ;
+		lv2:minimum -16.0 ;
+		lv2:maximum 16.0 ;
+		units:unit units:db
+	] , [
+		a lv2:ControlPort , lv2:InputPort ;
+		lv2:index 7 ;
+		lv2:symbol "mid_freq" ;
+		lv2:name "Mid Frequency" ;
+		lv2:default 0 ;
+		lv2:minimum 0 ;
+		lv2:maximum 6 ;
+		lv2:portProperty lv2:integer , lv2:enumeration ;
+		lv2:scalePoint [ rdfs:label "Off" ; rdf:value 0 ] , [ rdfs:label "360 Hz" ; rdf:value 1 ] , [ rdfs:label "700 Hz" ; rdf:value 2 ] , [ rdfs:label "1.6 kHz" ; rdf:value 3 ] , [ rdfs:label "3.2 kHz" ; rdf:value 4 ] , [ rdfs:label "4.8 kHz" ; rdf:value 5 ] , [ rdfs:label "7.2 kHz" ; rdf:value 6 ] 
+	] , [
+		a lv2:ControlPort , lv2:InputPort ;
+		lv2:index 8 ;
+		lv2:symbol "mid_gain" ;
+		lv2:name "Mid Gain" ;
+		lv2:default 0.0 ;
+		lv2:minimum -18.0 ;
+		lv2:maximum 18.0 ;
+		units:unit units:db
+	] , [
+		a lv2:ControlPort , lv2:InputPort ;
+		lv2:index 9 ;
+		lv2:symbol "high_gain" ;
+		lv2:name "High Gain (12 kHz)" ;
+		lv2:default 0.0 ;
+		lv2:minimum -16.0 ;
+		lv2:maximum 16.0 ;
+		units:unit units:db
+	] , [
+		a lv2:ControlPort , lv2:InputPort ;
+		lv2:index 10 ;
+		lv2:symbol "eq_in" ;
+		lv2:name "EQ In" ;
+		lv2:default 1 ;
+		lv2:minimum 0 ;
+		lv2:maximum 1 ;
+		lv2:portProperty lv2:toggled , lv2:integer ;
+		lv2:scalePoint [ rdfs:label "Out" ; rdf:value 0 ] , [ rdfs:label "In" ; rdf:value 1 ] 
+	] , [
+		a lv2:ControlPort , lv2:InputPort ;
+		lv2:index 11 ;
+		lv2:symbol "phase" ;
+		lv2:name "Phase" ;
+		lv2:default 0 ;
+		lv2:minimum 0 ;
+		lv2:maximum 1 ;
+		lv2:portProperty lv2:toggled , lv2:integer ;
+		lv2:scalePoint [ rdfs:label "Normal" ; rdf:value 0 ] , [ rdfs:label "Inverted" ; rdf:value 1 ] 
+	] , [
+		a lv2:ControlPort , lv2:InputPort ;
+		lv2:index 12 ;
+		lv2:symbol "output" ;
+		lv2:name "Output" ;
+		lv2:default 0.0 ;
+		lv2:minimum -24.0 ;
+		lv2:maximum 12.0 ;
+		units:unit units:db
+	] , [
+		a lv2:ControlPort , lv2:InputPort ;
+		lv2:index 13 ;
+		lv2:symbol "enabled" ;
+		lv2:name "Power" ;
+		lv2:default 1 ;
+		lv2:minimum 0 ;
+		lv2:maximum 1 ;
+		lv2:designation lv2:enabled ;
+		lv2:portProperty lv2:toggled
+	] , [
+		a lv2:ControlPort , lv2:OutputPort ;
+		lv2:index 14 ;
+		lv2:symbol "latency" ;
+		lv2:name "Latency" ;
+		lv2:minimum 0 ;
+		lv2:maximum 64 ;
+		lv2:designation lv2:latency ;
+		lv2:portProperty lv2:reportsLatency , lv2:integer ;
+		units:unit units:frame
+	] .
