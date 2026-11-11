@@ -176,13 +176,13 @@ int main(int argc, char** argv)
         ui_script(v);
 
         /* Draw the view and check it is the right way up: the readout window at the top
-         * right is near-black, the panel just below it is graphite. */
+         * (right end) is near-black, the panel just below it is graphite. */
         {
             NSBitmapImageRep* rep = [v bitmapImageRepForCachingDisplayInRect:[v bounds]];
             float top, below;
             [v cacheDisplayInRect:[v bounds] toBitmapImageRep:rep];
-            top = brightness(rep, 1036, 50);
-            below = brightness(rep, 1036, 66);
+            top = brightness(rep, 398, 100);
+            below = brightness(rep, 398, 116);
             snprintf(label, sizeof label, "panel draws the right way up (readout %.3f, panel %.3f)", top, below);
             check(label, top < 0.08f && below > top + 0.04f);
             if (argc > 2) {
