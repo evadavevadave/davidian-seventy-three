@@ -2,6 +2,8 @@
 
 A circuit-modelled channel strip plugin (LV2, VST3 and Audio Unit), built from a reference schematic: a class-A microphone preamplifier and equaliser with mic and line input transformers, a stepped sensitivity switch, an 18 dB/octave high-pass filter, a resonant low shelf, a mid bell, a 12 kHz high shelf, and a class-A output stage driving an output transformer.
 
+**A close model, not an exact copy.** It is a simulation of the circuit from its component values, not a sampled or measured unit, and some details are reasoned estimates (listed under [Estimates](#estimates)). It has not been compared side by side with a built unit, so expect it to sound close to the hardware rather than identical.
+
 ![The GUI](docs/gui.png)
 
 Mono or stereo: on a stereo track each side runs through its own channel model with the same settings. The GUI is the same in every format. GPL-3.0-or-later.
@@ -80,11 +82,9 @@ All of it is in `src/circuit.h`.
 - **Output:** the output level, then a single-ended class-A output stage (the most second harmonic) and the output transformer with its Zobel network (R64 1k5, C9 10n), saturating at low frequencies above about +22 dBu.
 - **Oversampling** (`src/oversample.h`): 4x at 44.1/48 kHz, 2x at 88.2/96 kHz, none above. The latency is 64 samples (1.3 ms at 48 kHz; 0 when not oversampling), and the plugin reports it to the host.
 
-### From the schematic, and estimates
+### Checked against the published specifications
 
-From the schematic: the switch positions and frequencies (its switch charts), the signal path, the 18 dB/octave filter, and the transformer loading networks.
-
-The schematic does not show the inside of the amplifier and equaliser cards. So the open-loop gain, clipping levels, transformer core limits, bandwidths and EQ curve shapes (Q values) are estimates. They are tuned to meet the published performance figures for this kind of channel, which `test_dsp` checks:
+`test_dsp` checks the model against the published performance figures for this kind of channel:
 
 | Specification | Published | This model |
 |---|---|---|
@@ -93,6 +93,12 @@ The schematic does not show the inside of the amplifier and equaliser cards. So 
 | Distortion at +20 dBu out, 50 Hz to 10 kHz | under 0.07% | 0.043 to 0.046% (line), 0.051 to 0.053% (mic) |
 | Maximum output | over +26 dBu | +26.5 dBu at 1% THD |
 | Gain | mic +20 to +80 dB, line -10 to +20 dB, 5 dB steps | exact |
+
+### Estimates
+
+From the schematic: the switch positions and frequencies (its switch charts), the signal path, the 18 dB/octave filter, and the transformer loading networks.
+
+The schematic does not show the inside of the amplifier and equaliser cards, so these are reasoned estimates, tuned to meet the published figures above: the open-loop gain, clipping levels, transformer core limits, bandwidths and EQ curve shapes (Q values).
 
 Not modelled: noise (the plugin is silent with no input), hum, and unit-to-unit component variation.
 
@@ -157,6 +163,16 @@ CI also runs Steinberg's VST3 validator on the Windows build and Apple's `auval 
 
 GitHub Actions runs all of these on Windows, macOS, Linux x64 and Linux arm64 for every push (see `.github/workflows/build.yml`). Pushing a `v*` tag publishes a release with a zip for each platform.
 
+## Use of AI
+
+Made with generative AI (Claude Code), directed and reviewed by Davidian. See [AI_USAGE.md](AI_USAGE.md) for what the author and the AI each did, and what has and hasn't been checked.
+
+## References
+
+- Analog filter prototypes converted with the bilinear transform: standard DSP (e.g. Robert Bristow-Johnson, *Cookbook formulae for audio EQ biquad filter coefficients*).
+- Third-order Butterworth high-pass: standard filter design (e.g. Williams and Taylor, *Electronic Filter Design Handbook*).
+- Polyphase Kaiser-windowed sinc oversampling: standard multirate DSP (e.g. Lyons, *Understanding Digital Signal Processing*).
+
 ## Licence
 
-GPL-3.0-or-later. See [LICENSE](LICENSE), [NOTICE.md](NOTICE.md) and [AI_USAGE.md](AI_USAGE.md). Made with generative AI (Claude Code).
+GPL-3.0-or-later. See [LICENSE](LICENSE), [NOTICE.md](NOTICE.md) and [AI_USAGE.md](AI_USAGE.md).
